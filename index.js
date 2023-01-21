@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 4413;
 
 // db
 ConnectToDB(process.env.DB);
-
+console.log(process.env.DB, process.env.TOKEN_KEY);
 // Server Config
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: false }));
