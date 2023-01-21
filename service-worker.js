@@ -28,10 +28,6 @@ const PRECACHE_URLS = [
   "/public/js/button-primary.js",
   "/public/js/button-secondary.js",
   "/public/js/components.js",
-  "/public/js/converTime.js",
-  "/public/js/Events.js",
-  "/public/js/index.mjs.min.js",
-  "/public/js/SuperCalendar.js",
 ];
 
 // The install handler takes care of precaching the resources we always need.
