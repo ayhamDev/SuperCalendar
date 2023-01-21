@@ -1,0 +1,11 @@
+{
+    "name": "SuperCalendar",
+    "description": "This is A SuperCalendar Application",
+    "short_name": "calendar++",
+    "theme_color": "white",
+    "background_color": "white",
+    "display": "standalone",
+    "orientation": "portrait",
+    "scope": "/",
+    "start_url": "/"
+  }

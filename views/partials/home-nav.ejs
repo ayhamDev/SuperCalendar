@@ -1,0 +1,18 @@
+<div class="shadow sticky select-none top-0 bg-opacity-40 bg-white backdrop-blur">
+    <nav class="container m-auto p-4 flex justify-between items-center flex-wrap gap-2 flex-col sm:flex-row">
+       <a href="/"><h2 class="text-2xl sm:text-3xl text-gray-600"><span class="text-blue-600 font-semibold ">Super</span>Calendar</h2></a>
+
+       <div class="flex gap-4">
+            <% if (back) { %>
+                <button-2nd onclick="history.back()" data-text="back"></button-2nd>
+                
+                <% } %>
+                <% if (!back) { %>
+                    <button-2nd data-src="/auth/change-password" data-text="Passwords"></button-2nd>
+                <% } %>
+                    <button-primary data-src="/auth/logout" data-red data-text="Log out"></button-primary>
+              
+       </div>
+
+    </nav>
+</div>

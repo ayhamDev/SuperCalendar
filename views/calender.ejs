@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/SuperCalendar.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <title><%= calendar.title  %>  Calendar</title>
+</head>
+<body class="select-none">
+    <main id="calendar-root">
+
+
+    </main>
+    <script src="/public/js/SuperCalendar.js"></script>
+     
+    <script>
+      const cal = <%- JSON.stringify(calendar) %>
+      
+      const calendar = new SuperCalendar(
+  {
+    view: 0,
+    title: "<%= calendar.title %>",
+  },
+  [
+  ...cal.events.map(value => {
+      return {...value, event_id: value._id }
+    })
+  ]
+);
+
+calendar.onNewEvent = () => {
+  location.href = `<%= id %>/new-event`
+};
+
+calendar.onEditEvent = (event_id) => {
+  location.href = `/calendar/<%= id %>/event/${event_id}`
+};
+
+    </script>
+</body>
+</html>

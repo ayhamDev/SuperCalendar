@@ -1,0 +1,159 @@
+<%- include("./partials/header.ejs",{ title: "home" })  %> 
+<body>
+    <%- include("./partials/home-nav.ejs",{ back: false })  %> 
+        
+    <main class="container m-auto mt-6">
+        <h3 class="text-lg sm:ml-0 ml-4 today font-medium"></h3>
+        <div class="flex justify-between items-center sm:text-5xl text-3xl font-semibold sm:ml-0 ml-4 sm:mr-0 mr-4">
+            <h1 class="">Calendars</h1>
+            <button-primary data-src="/new-calendar" data-text="New Calendar"></button-primary>
+            
+        </div>
+
+        <div class="p-4 pb-0 md:p-0 md:mt-6 max-w-lg">
+                
+                <input
+                  type="search"
+                  class="
+                    search_input
+                    form-control
+                    mb-2
+                    block
+                    w-full
+                    px-3
+                    py-1.5
+                    text-base
+                    font-normal
+                    text-gray-700
+                    bg-white bg-clip-padding
+                    border border-solid border-gray-300
+                    rounded
+                    transition
+                    ease-in-out
+                    m-0
+                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                  "
+                  id="search"
+                  placeholder="Search..."
+                />
+                <%- error == 1 ? `<span class="text-red-600">This Calendar Doesn't Exists</span>` : "" %>  
+                <%- error == 2 ? `<span class="text-red-600">The ID of the Calendar is Incorrect</span>` : "" %>  
+        </div>
+        <div class="flex flex-wrap w-full mt-8 sm:gap-16 p-4 md:p-0 gap-6 items-center justify-between lg:justify-start sm:flex-wrap flex-col sm:flex-row">
+            <% Calendars.forEach(cal => { %>
+                <div id="cla<%= cal.id %>" class="transition-shadow bg-white md:w-80 w-full border border-gray-100 calendar_card shadow hover:shadow-lg duration-300 px-6 py-4 rounded break-words">
+                    <h2 class="text-xl font-semibold mb-2 text-black"><%= cal.title %> </h2>
+                    <div class="text-gray-600">
+                        <h3 class="text-lg text-gray-900">Current Event: <span id="current_event_name">N/A</span></h3>
+                        <h3 class="text-base">From: <span id="current_from_time">--:-- --</span></h3>
+                        <h3 class="text-base">To: <span id="current_to_time">--:-- --</span></h3>
+                    </div>
+                    <div class="mt-2 mb-2 text-gray-600">
+                        
+                        <h3 class="text-lg text-gray-900">Next Event: <span id="next_event_name">N/A</span></h3>
+                        <h3 class="text-base">From: <span id="next_from_time">--:-- --</span></h3>
+                        <h3 class="text-base">To: <span id="next_to_time">--:-- --</span></h3>
+                    </div>
+                    <div class="flex justify-start items-center gap-4 mb-4">
+
+                        <button-primary class="block" data-src="/calendar/<%= cal.id %>" data-text="View"></button-primary>
+                        <button-primary data-red class="block" data-src="/calendar/<%= cal.id %>/delete" data-text="Delete"></button-primary>
+                    </div>
+ 
+                    <span class="text-sm text-gray-400">Last Updated <%= cal.lastUpdate %> </span>
+                    </div>
+            <% }) %>
+                
+
+        </div>
+        <div class="h-12"></div>
+
+    </main>
+    <script type="module">
+        import CheckForEvents from "/public/js/Events.js"
+        import convertTime12to24 from "/public/js/convertTime.js"
+        let Calendars =[{ id: String(),
+      title: String(),
+      events: [{title: "", date: { time: { start: "", end: "" }, from :"", to: ""  }}],
+      lastUpdate: String() }] 
+        Calendars =  <%- JSON.stringify(Calendars) %>
+        const Months_short = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+let dayNames_short = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        const search_input = document.querySelector(".search_input")
+        const Calendars_cards = document.querySelectorAll(".calendar_card")
+        search_input.addEventListener("input",() => {
+            Calendars_cards.forEach(calendar => {
+                if(calendar.querySelector("h2").innerHTML.toUpperCase().includes(search_input.value.toUpperCase()
+)) {
+                    calendar.classList.remove("hidden")
+                }
+                if(!calendar.querySelector("h2").innerHTML.toUpperCase().includes(search_input.value.toUpperCase()
+)) {
+                    calendar.classList.add("hidden")
+                }
+            })
+        })
+        const today = document.querySelector(".today")
+        const The_Date = new Date()
+
+        const date = The_Date.getDate()
+        const day = The_Date.getDay()
+        const month = The_Date.getMonth()
+        const year = The_Date.getFullYear()
+
+        today.innerHTML = `${dayNames_short[day]} ${date} ${Months_short[month]} ${year}`
+
+
+        // The Calendars Cards Current and Next Event 
+        let hour = new Date().getHours() * 100;
+        let min = new Date().getMinutes() * (100 / 60);
+        let time = Math.round(hour + min);
+        console.log(time);
+        Calendars.forEach(cal => {
+            cal.events.forEach(event => {
+                if(CheckForEvents(event,year,month,date,day)) {
+                    let start = convertTime12to24(event.date.time.start).split(":");
+                    start[0] = parseInt(start[0]);
+                    start[1] = parseInt(start[1]) * (100 / 60);
+
+                    start = start[0] * 100 + start[1];
+
+                    let end = convertTime12to24(event.date.time.end).split(":");
+                    end[0] = parseInt(end[0]);
+                    end[1] = parseInt(end[1]) * (100 / 60);
+                    end = end[0] * 100 + end[1];
+                    start = Math.round(start)
+                    end = Math.round(end)
+                    if(time >= start && time <= end) {
+                        const cal_card = document.querySelector(`#cla${cal.id}`)
+                        cal_card.querySelector("#current_event_name").innerHTML = event.title
+                        cal_card.querySelector("#current_from_time").innerHTML = event.date.time.start
+                        cal_card.querySelector("#current_to_time").innerHTML = event.date.time.end
+                    }
+                    if(time < start) {
+                        const cal_card = document.querySelector(`#cla${cal.id}`)
+                        cal_card.querySelector("#next_event_name").innerHTML = event.title
+                        cal_card.querySelector("#next_from_time").innerHTML = event.date.time.start
+                        cal_card.querySelector("#next_to_time").innerHTML = event.date.time.end
+                    }
+                }
+                
+            }) 
+        })
+    </script>
+    
+</body>
+

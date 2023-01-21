@@ -1,0 +1,51 @@
+<%- include("./partials/header.ejs",{ title: "home - New calendar" })  %> 
+<body>
+    <%- include("./partials/home-nav.ejs",{ back: true })  %> 
+        
+    <main class="container m-auto mt-6">
+        <h1 class="sm:text-5xl text-3xl font-semibold sm:ml-0 ml-4">New Calendar</h1>
+            <div class="flex flex-wrap mt-24 gap-16 sm items-center justify-center p-4">
+                <form action="/new-calendar" method="post" class="shadow-md rounded p-6">
+          
+                  <div class=" mb-5">
+                    <label for="new-calendar" class="text-xl form-label inline-block mb-2 text-gray-700"
+                    >Calender Title</label
+                  >       
+                  <input
+                  type="text"
+                  class="
+                    form-control
+                    block
+                    w-full
+                    px-3
+                    mb-2
+                    py-1.5
+                    text-base
+                    font-normal
+                    text-gray-700
+                    bg-white bg-clip-padding
+                    border border-solid border-gray-300
+                    rounded
+                    transition
+                    ease-in-out
+                    m-0
+                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                  "
+                  id="new-calendar"
+                  name="title"
+                  placeholder="My Calendar..."
+                />
+                <%- error == 1 ? `<span class="text-red-600">Plase Enter The Calendar Title.</span>` : "" %>  
+                <%- error == 2 ? `<span class="text-red-600">Couldn't Create The Calendar.</span>` : "" %>  
+
+                  </div>         
+
+                    <button-primary data-full data-type="submit" data-text="Create"></button-primary>
+                </form>
+
+            </div>
+    </main>
+
+
+</body>
+

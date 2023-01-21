@@ -1,0 +1,32 @@
+{
+  "name": "supercalendar",
+  "version": "1.0.0",
+  "description": "a super cool timesheet app with super functions",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "build": "pkg .",
+    "watch:css": "tailwindcss -i ./index.css -o ./public/css/index.css --watch",
+    "build:css": "tailwindcss -i ./index.css -o ./public/css/index.css"
+  },
+  "author": "Ayham",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "express-validator": "^6.14.2",
+    "jsonwebtoken": "^9.0.0",
+    "moment": "^2.29.4",
+    "mongoose": "^6.8.0",
+    "nodemon": "^2.0.20",
+    "ip": "^1.1.8",
+    "open": "^8.4.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.2.4"
+  }
+}

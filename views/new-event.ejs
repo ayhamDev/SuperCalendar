@@ -1,0 +1,301 @@
+<%- include("./partials/header.ejs",{ title: "home" })  %> 
+<body>
+    <%- include("./partials/home-nav.ejs",{ back: true })  %> 
+        
+    <main class="container m-auto mt-6">
+        <h1 class="sm:text-5xl text-3xl font-semibold sm:ml-0 ml-4"><%= title %>  / New Event</h1>
+            <div class="flex flex-wrap mt-12 gap-16 sm items-center justify-center p-4">
+                <form action="/calendar/<%= id %>/new-event " method="post" class="shadow-md rounded p-6">
+                  <div>
+                    <label for="new-calendar" class="text-xl form-label inline-block mb-2 text-gray-700"
+                    >Event Name</label
+                  >                   
+                  <input required
+                    type="text"
+                    class="
+                      form-control
+                      mb-5
+                      block
+                      w-full
+                      px-3
+                      py-1.5
+                      text-base
+                      font-normal
+                      text-gray-700
+                      bg-white bg-clip-padding
+                      border border-solid border-gray-300
+                      rounded
+                      transition
+                      ease-in-out
+                      m-0
+                      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                    "
+                    id="new-calendar"
+                    name="title"
+                    placeholder="My Event..."
+                  />
+
+                  </div>
+                  <div>
+                    <label for="desc" class="text-xl form-label inline-block mb-2 text-gray-700"
+                    >Event description</label
+                  >                   
+                  <textarea
+                    class="
+                      form-control
+                      mb-5
+                      block
+                      w-full
+                      px-3
+                      py-1.5
+                      text-base
+                      font-normal
+                      text-gray-700
+                      bg-white bg-clip-padding
+                      border border-solid border-gray-300
+                      rounded
+                      transition
+                      ease-in-out
+                      m-0
+                      focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none
+                    "
+                    id="desc"
+                    name="desc"
+                    placeholder="My Event Description..."
+                    rows="4"
+                  ></textarea>
+
+                  </div>
+                  <div>
+                    <label for="from_date" class="text-xl form-label inline-block mb-2 text-gray-700"
+                    >From</label
+                  >                   
+                    <input required class="                      
+                    form-control
+                    mb-5
+                    block
+                    w-full
+                    px-3
+                    py-1.5
+                    text-base
+                    font-normal
+                    text-gray-700
+                    bg-white bg-clip-padding
+                    border border-solid border-gray-300
+                    rounded
+                    transition
+                    ease-in-out
+                    m-0
+                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" name="from_date" type="datetime-local" id="from_date">
+                  </div>
+                  <div>
+                    <label onclick="" for="to_date" class="text-xl form-label inline-block mb-2 text-gray-700"
+                    >To</label
+                  >                   
+                    <input required class="                      
+                    form-control
+                    mb-5
+                    block
+                    w-full
+                    px-3
+                    py-1.5
+                    text-base
+                    font-normal
+                    text-gray-700
+                    bg-white bg-clip-padding
+                    border border-solid border-gray-300
+                    rounded
+                    transition
+                    ease-in-out
+                    m-0
+                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" name="to_date" type="datetime-local" id="to_date"/>
+
+                  </div>
+                  
+                  <div class="mb-4">
+                    <label class="text-xl form-label inline-block mb-2 text-gray-700"
+                    >On</label>                   
+                    <div class="flex sm:justify-between items-center select-none flex-wrap gap-4 justify-start">
+                      <div>
+
+                        <input type="checkbox" class="days_checkbox" id="sun" name="days" value="0">   
+                        <label class="lblCountry" for="sun">Sun</label>
+                      </div>
+                      <div>
+                        <input type="checkbox" class="days_checkbox" id="mon" name="days" value="1">
+                        <label class="lblCountry" for="mon">Mon</label>
+                      </div>
+                      <div>
+                        <input type="checkbox" class="days_checkbox" id="tue" name="days" value="2">
+                        <label class="lblCountry" for="tue">Tue</label>
+                      </div>
+                      <div>
+                        <input type="checkbox" class="days_checkbox" id="wed" name="days" value="3">
+                        <label class="lblCountry" for="wed">Wed</label>
+                      </div>
+                      <div>
+                        <input type="checkbox" class="days_checkbox" id="thu" name="days" value="4">
+                        <label class="lblCountry" for="thu">Thu</label>
+                      </div>
+                      <div>
+                        <input type="checkbox" class="days_checkbox" id="fri" name="days" value="5">
+                        <label class="lblCountry" for="fri">Fri</label>
+                      </div>
+                      <div>
+                        <input type="checkbox" class="days_checkbox" id="sat" name="days" value="6">
+                        <label class="lblCountry" for="sat">Sat</label>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="mb-4">
+                    <label class="text-xl form-label inline-block mb-2 text-gray-700"
+                    >Color</label>                   
+                    <div class="flex sm:justify-between items-center select-none flex-wrap gap-4 justify-start">
+                      <!-- gray -->
+                      <div class="flex flex-col gap-2">
+                        <div>
+                          <input type="radio" required class="days_radio" id="color1" name="color" value="gray-200" checked>   
+                          <label class="lb2 gray-200" for="color1"></label>
+                        </div>
+                        <div>
+                          <input type="radio" required class="days_radio" id="color2" name="color" value="gray-300">   
+                          <label class="lb2 gray-300" for="color2"></label>
+                        </div>
+                        <div>
+                          <input type="radio" required class="days_radio" id="color3" name="color" value="gray-400">   
+                          <label class="lb2 gray-400" for="color3"></label>
+                        </div>
+                      </div>
+                      
+                      <!-- Orange -->
+                      <div class="flex flex-col gap-2">
+                        <div>
+                          <input type="radio" required class="days_radio" id="color4" name="color" value="orange-200">   
+                          <label class="lb2 orange-200" for="color4"></label>
+                        </div>
+                        <div>
+                          <input type="radio" required class="days_radio" id="color5" name="color" value="orange-300">   
+                          <label class="lb2 orange-300" for="color5"></label>
+                        </div>
+                        <div>
+                          <input type="radio" required class="days_radio" id="color6" name="color" value="orange-400">   
+                          <label class="lb2 orange-400" for="color6"></label>
+                        </div>
+                      </div>
+                      
+                      <!-- green -->
+                      <div class="flex flex-col gap-2">
+                        <div>
+                          <input type="radio" required class="days_radio" id="color7" name="color" value="green-200">   
+                          <label class="lb2 green-200" for="color7"></label>
+                        </div>
+                        <div>
+                          <input type="radio" required class="days_radio" id="color8" name="color" value="green-300">   
+                          <label class="lb2 green-300" for="color8"></label>
+                        </div>
+                        <div>
+                          <input type="radio" required class="days_radio" id="color9" name="color" value="green-400">   
+                          <label class="lb2 green-400" for="color9"></label>
+                        </div>
+                      </div>
+                      <!-- yellow -->
+                      <div class="flex flex-col gap-2">
+                        <div>
+                          <input type="radio" required class="days_radio" id="color10" name="color" value="yellow-200">   
+                          <label class="lb2 yellow-200" for="color10"></label>
+                        </div>
+                        <div>
+                          <input type="radio" required class="days_radio" id="color11" name="color" value="yellow-300">   
+                          <label class="lb2 yellow-300" for="color11"></label>
+                        </div>
+                        <div>
+                          <input type="radio" required class="days_radio" id="color12" name="color" value="yellow-400">   
+                          <label class="lb2 yellow-400" for="color12"></label>
+                        </div>
+                      </div>
+                      <!-- Cyan -->
+                      <div class="flex flex-col gap-2">
+                        <div>
+                          <input type="radio" required class="days_radio" id="color13" name="color" value="cyan-200">   
+                          <label class="lb2 cyan-200" for="color13"></label>
+                        </div>
+                        <div>
+                          <input type="radio" required class="days_radio" id="color14" name="color" value="cyan-300">   
+                          <label class="lb2 cyan-300" for="color14"></label>
+                        </div>
+                        <div>
+                          <input type="radio" required class="days_radio" id="color15" name="color" value="cyan-400">   
+                          <label class="lb2 cyan-400" for="color15"></label>
+                        </div>
+                      </div>
+                      <!-- rose -->
+                      <div class="flex flex-col gap-2">
+                        <div>
+                          <input type="radio" required class="days_radio" id="color17" name="color" value="rose-200">   
+                          <label class="lb2 rose-200" for="color17"></label>
+                        </div>
+                        <div>
+                          <input type="radio" required class="days_radio" id="color19" name="color" value="rose-300">   
+                          <label class="lb2 rose-300" for="color19"></label>
+                        </div>
+                        <div>
+                          <input type="radio" required class="days_radio" id="color20" name="color" value="rose-400">   
+                          <label class="lb2 rose-400" for="color20"></label>
+                        </div>
+                      </div>
+                      <!-- indigo -->
+                      <div class="flex flex-col gap-2">
+                        <div>
+                          <input type="radio" required class="days_radio" id="color21" name="color" value="indigo-200">   
+                          <label class="lb2 indigo-200" for="color21"></label>
+                        </div>
+                        <div>
+                          <input type="radio" required class="days_radio" id="color22" name="color" value="indigo-300">   
+                          <label class="lb2 indigo-300" for="color22"></label>
+                        </div>
+                        <div>
+                          <input type="radio" required class="days_radio" id="color23" name="color" value="indigo-400">   
+                          <label class="lb2 indigo-400" for="color23"></label>
+                        </div>
+                      </div>
+                      <!-- pink -->
+                      <div class="flex flex-col gap-2">
+                        <div>
+                          <input type="radio" required class="days_radio" id="color24" name="color" value="pink-200">   
+                          <label class="lb2 pink-200" for="color24"></label>
+                        </div>
+                        <div>
+                          <input type="radio" required class="days_radio" id="color25" name="color" value="pink-300">   
+                          <label class="lb2 pink-300" for="color25"></label>
+                        </div>
+                        <div>
+                          <input type="radio" required class="days_radio" id="color26" name="color" value="pink-400">   
+                          <label class="lb2 pink-400" for="color26"></label>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <%- error == 1 ? `<span class="text-red-600">Plase Fill in all The Inputs.</span>` : "" %>  
+                    <%- error == 2 ? `<span class="text-red-600">Couldn't Create This Event.</span>` : "" %>  
+                  </div>
+
+
+
+       
+                    <button-primary data-full data-type="submit" data-text="Create"></button-primary>
+                </form>
+
+            </div>
+    </main>
+<script>
+
+  document.querySelectorAll("input[name=days]").forEach(checkbox => {
+    if(checkbox.value == new Date().getDay()) {
+      checkbox.checked = true
+    }
+  })
+</script>
+
+</body>
+
