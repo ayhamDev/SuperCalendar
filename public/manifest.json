@@ -1,11 +1,32 @@
 {
-    "name": "SuperCalendar",
-    "description": "This is A SuperCalendar Application",
-    "short_name": "calendar++",
-    "theme_color": "white",
-    "background_color": "white",
+    "theme_color": "#1697E0",
+    "background_color": "#ffffff",
     "display": "standalone",
-    "orientation": "portrait",
     "scope": "/",
-    "start_url": "/"
-  }
+    "start_url": "/",
+    "description": "SuperCalendar For Quitesd",
+    "name": "SuperCalendar",
+    "short_name": "Scalender",
+    "icons": [
+        {
+            "src": "/public/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/public/icon-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "/public/icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        },
+        {
+            "src": "/public/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
