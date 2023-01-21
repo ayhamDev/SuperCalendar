@@ -5,15 +5,10 @@ const bcrypt = require("bcrypt");
 async function ConnectToDB() {
   mongoose.set("strictQuery", true);
   mongoose
-    .connect(
-      process.env.DB,
-      process.env.NODE_ENV != "production"
-        ? {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-          }
-        : {}
-    )
+    .connect(process.env.DB, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
     .then(() => {
       console.log("Connected To db.");
     })
