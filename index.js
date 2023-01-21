@@ -3,6 +3,7 @@ const ip = require("ip");
 const ConnectToDB = require("./db");
 const Router = require("./router/router");
 var cookies = require("cookie-parser");
+const { patch } = require("./router/router");
 
 const app = express();
 
@@ -22,6 +23,9 @@ app.use(express.json());
 app.use(cookies());
 // Router
 app.use("/public", express.static("public"));
+app.get("/service-worker", (req, res) => {
+  res.sendFile(__dirname + "/service-worker.js");
+});
 app.use("/", Router);
 
 app.listen(PORT, () => {
