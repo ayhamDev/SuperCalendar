@@ -9,4 +9,4 @@ const CalendarSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("auth", CalendarSchema);
+module.exports = mongoose.model("Auth", CalendarSchema);

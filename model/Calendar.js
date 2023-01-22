@@ -33,4 +33,4 @@ const CalendarSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-module.exports = mongoose.model("calendar", CalendarSchema);
+module.exports = mongoose.model("Calendar", CalendarSchema);

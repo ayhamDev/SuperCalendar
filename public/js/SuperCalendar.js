@@ -76,7 +76,7 @@ const temp = parseHtml(/*html*/ `
         <div class="sticky top-0" style="z-index: 9;">
           <section class="flex justify-between items-center p-4 select-none bg-gray-50 border-b-2 border-gray-100 gap-6 flex-wrap">
               <div class="flex justify-between items-center">
-                  <h1 class="text-2xl font-normal title">Class A</h1>
+                  <a href="/"> <h1 class="text-2xl font-normal title">Class A</h1></a>
                   <pre class="text-xl"> / </pre>  
                   
                   <h1 class="cursor-pointer date_picker text-2xl font-semibold selected_date">January 2022</h1>  

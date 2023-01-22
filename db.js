@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Auth = require("./model/auth");
+const auth = require("./model/auth");
 const bcrypt = require("bcrypt");
 
 async function ConnectToDB() {
@@ -9,27 +9,26 @@ async function ConnectToDB() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
-    .then(() => {
+    .then(async () => {
       console.log("Connected To db.");
+      const admin = await auth.findOne();
+      if (!admin) {
+        const password = await bcrypt.hash("123", 10);
+        const new_admin = new auth({
+          password,
+        });
+        new_admin
+          .save()
+          .then(() => {
+            console.log("admin created");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
     })
     .catch((err) => {
       console.log(err);
     });
-
-  const admin = await Auth.findOne();
-  if (!admin) {
-    const password = await bcrypt.hash("123", 10);
-    const new_admin = new Auth({
-      password,
-    });
-    new_admin
-      .save()
-      .then(() => {
-        console.log("admin created");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
 }
 module.exports = ConnectToDB;
