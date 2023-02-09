@@ -22,11 +22,9 @@ app.use(express.json());
 app.use(cookies());
 // Router
 app.use("/public", express.static("public"));
-app.get("/service-worker.js", (req, res) => {
-  res.sendFile(__dirname + "/service-worker.js");
-});
 app.use("/", Router);
 
 app.listen(PORT, () => {
   console.log(`The Application Is Running On http://${ip.address()}:${PORT}`);
+  console.log("Connecting To db Plase Wait...");
 });

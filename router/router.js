@@ -6,7 +6,7 @@ const Calendar = require("../model/Calendar");
 const Auth = require("../model/auth");
 const moment = require("moment");
 const { isAuthenticated, isNotAuthenticated } = require("../middleware/auth");
-const { Convert24To12 } = require("./utils/convertTime");
+var convertTime = require("convert-time");
 
 // auth routes
 Router.get("/auth", isNotAuthenticated, (req, res) => {
@@ -219,7 +219,11 @@ Router.post(
 
     // Start
     const start_date = from_date[0];
-    const start_time = from_date[1];
+    let start_time = from_date[1].replace(/^0+(?=\d)/, "");
+
+    start_time.charAt(0) == "0"
+      ? (start_time = start_time.replace("", "12"))
+      : start_time;
 
     const Start_year = parseInt(start_date.split("-")[0]);
     const Start_month = parseInt(start_date.split("-")[1]) - 1;
@@ -233,10 +237,14 @@ Router.post(
     const End_day = parseInt(end_date.split("-")[2]);
 
     // Time
-
-    event_data.date.time.start = Convert24To12(start_time);
-    event_data.date.time.end = Convert24To12(end_time);
-
+    event_data.date.time.start = convertTime(start_time).toUpperCase();
+    event_data.date.time.end = convertTime(end_time).toUpperCase();
+    event_data.date.time.start.charAt(0) == "0"
+      ? (event_data.date.time.start = event_data.date.time.start.replace(
+          "0",
+          "12"
+        ))
+      : null;
     // Starting Date
     event_data.date.from.year = Start_year;
     event_data.date.from.month = Start_month;
@@ -334,7 +342,7 @@ Router.post(
 
     // Start
     const start_date = from_date[0];
-    const start_time = from_date[1];
+    let start_time = from_date[1].replace(/^0+(?=\d)/, "");
 
     const Start_year = parseInt(start_date.split("-")[0]);
     const Start_month = parseInt(start_date.split("-")[1]) - 1;
@@ -349,9 +357,14 @@ Router.post(
 
     // Time
 
-    event_data.date.time.start = Convert24To12(start_time);
-    event_data.date.time.end = Convert24To12(end_time);
-
+    event_data.date.time.start = convertTime(start_time).toUpperCase();
+    event_data.date.time.end = convertTime(end_time).toUpperCase();
+    event_data.date.time.start.charAt(0) == "0"
+      ? (event_data.date.time.start = event_data.date.time.start.replace(
+          "0",
+          "12"
+        ))
+      : null;
     // Starting Date
     event_data.date.from.year = Start_year;
     event_data.date.from.month = Start_month;
@@ -387,6 +400,7 @@ Router.post(
     }
   }
 );
+
 Router.get(
   "/calendar/:id/event/:event_id/delete",
   isAuthenticated,
