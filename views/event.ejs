@@ -6,6 +6,27 @@
         <h1 class="sm:text-5xl text-3xl font-semibold sm:ml-0 ml-4"><%= cal_title %> / <%= title %></h1>
             <div class="flex flex-wrap mt-12 gap-16 sm items-center justify-center p-4">
                 <form action="/calendar/<%= id %>/event/<%= event_id %>" method="post" class="shadow-md rounded p-6">
+                  <input type="text" class="hidden" id="calendar_id_input" name="calendar_id"  value="<%= id %>">
+                  <div class="mb-5">
+                    <label for="calendar" class="text-xl form-label inline-block mb-2 text-gray-700"
+                    >Calendar</label>
+                    <div class="w-auto relative">
+                      <button type="button" id="calendar" class="inline-flex w-full justify-between  gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" id="menu-button" aria-expanded="true" aria-haspopup="true">
+                        <span id="dropdown_btn_title"><%= cal_title  %></span>
+                        <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                        </svg>
+                      </button>
+                      <div id="calendar_container" class="absolute hidden left-0 overflow-auto z-50 mt-2 w-full max-h-[200px] origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                        <div class="py-1" id="calendar_container_list" role="none">
+                          <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                        </div>
+                    </div>
+
+                    </div>
+                  </div>
+
+
                   <div>
                     <label for="new-calendar" class="text-xl form-label inline-block mb-2 text-gray-700"
                     >Event Name</label
@@ -321,6 +342,30 @@
   catch {
     console.error(`Error: couldn't Find the Color ${event.color}`);
   }
+
+  const dropdown_btn = document.querySelector("#calendar")
+  const dropdown_container = document.querySelector("#calendar_container")
+  const dropdown_list = document.querySelector("#calendar_container_list")
+  const calendar_id = document.querySelector("#calendar_id_input")
+  const dropdown_btn_title = document.querySelector("#dropdown_btn_title")
+
+  dropdown_btn.addEventListener("click",() => {
+    dropdown_container.classList.toggle("hidden")
+  })
+  
+
+  const Dom = new DOMParser()
+  const Calendars = <%- JSON.stringify(Calendars) %> 
+  Calendars.forEach(Calendar => {
+    const Calendar_btn = Dom.parseFromString(` <a data-calendar_id="${Calendar._id}" class="text-gray-700 hover:bg-gray-100 duration-200 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0"></a>`,"text/html").body.querySelector("a")
+    Calendar_btn.textContent = Calendar.title
+    Calendar_btn.addEventListener("click",() => {
+      dropdown_container.classList.add("hidden")
+      calendar_id.value = Calendar_btn.dataset.calendar_id
+      dropdown_btn_title.textContent = Calendar_btn.textContent
+    })
+    dropdown_list.append(Calendar_btn)
+  })
 //   document.querySelector(".btn_delete").addEventListener("click", () => {
 //     fetch("/calendar/<%= id %>/event/<%= event_id %>/delete",
 // {

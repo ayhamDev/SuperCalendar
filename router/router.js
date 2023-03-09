@@ -279,6 +279,7 @@ Router.get(
   isAuthenticated,
   async (req, res) => {
     try {
+      const Calendars = await Calendar.find();
       const calendar = await Calendar.findById(req.params.id);
       if (calendar) {
         const cal = JSON.parse(JSON.stringify(calendar));
@@ -293,6 +294,7 @@ Router.get(
             event_id: found._id,
             data: found,
             error: req.query.error,
+            Calendars,
           });
         } else {
           res.redirect(`/calendar/${req.params.id}?error=1`);
@@ -377,26 +379,57 @@ Router.post(
 
     // Days
     event_data.date.days = [...req.body.days];
-    const doc = await Calendar.findById(req.params.id);
-    if (doc) {
-      let events = JSON.parse(JSON.stringify(doc.events));
-      events.forEach((event, index) => {
-        if (event._id == req.params.event_id) {
-          events[index] = { ...event_data, _id: req.params.event_id };
-        }
-      });
-      doc.events = events;
-
-      doc
-        .save()
-        .then(() => {
-          res.redirect(`/calendar/${req.params.id}`);
-        })
-        .catch(() => {
-          res.redirect(`/calendar/${req.params.id}/new-event?error=2`);
+    if (req.body.calendar_id == req.params.id) {
+      const doc = await Calendar.findById(req.params.id);
+      if (doc) {
+        let events = JSON.parse(JSON.stringify(doc.events));
+        events.forEach((event, index) => {
+          if (event._id == req.params.event_id) {
+            events[index] = { ...event_data, _id: req.params.event_id };
+          }
         });
+        doc.events = events;
+
+        doc
+          .save()
+          .then(() => {
+            res.redirect(`/calendar/${req.params.id}`);
+          })
+          .catch(() => {
+            res.redirect(`/calendar/${req.params.id}/new-event?error=2`);
+          });
+      } else {
+        res.redirect("/?error=1");
+      }
     } else {
-      res.redirect("/?error=1");
+      const doc_delete = await Calendar.findById(req.params.id);
+      if (doc_delete) {
+        let events = JSON.parse(JSON.stringify(doc_delete.events));
+        events.forEach((event, index) => {
+          if (event._id == req.params.event_id) {
+            events.splice(index, 1);
+            doc_delete.events = events;
+            doc_delete.save();
+          }
+        });
+      }
+      const doc = await Calendar.findById(req.body.calendar_id);
+      if (doc) {
+        let events = JSON.parse(JSON.stringify(doc.events));
+        events.push({ ...event_data, _id: req.params.event_id });
+        doc.events = events;
+
+        doc
+          .save()
+          .then(() => {
+            res.redirect(`/calendar/${req.body.calendar_id}`);
+          })
+          .catch(() => {
+            res.redirect(`/calendar/${req.params.id}/new-event?error=2`);
+          });
+      } else {
+        res.redirect("/?error=1");
+      }
     }
   }
 );
